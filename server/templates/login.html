@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block style %}
+.tabled form  { display: table;      }
+.tabled p     { display: table-row;  }
+.tabled label { display: table-cell; }
+.tabled input { display: table-cell; }
+{% endblock style %}
+
+{% block content %}
+<div class="center">
+    {% comment %} <form class="tabled" action="/action_page.php">
+        <label class="tabled" for="login">First name:</label>
+        <input class="tabled" type="text" id="login" name="login">
+        <p class="tabled"></p>
+        <label class="tabled" for="password">Last name:</label>
+        <input class="tabled" type="password" id="password" name="password"><br />
+        <input class="tabled" type="submit" value="Submit">
+    </form> {% endcomment %}
+    <form method="POST">
+        {% csrf_token %}
+        <h2>Login</h2>
+        {{form.as_p}}
+        <input type="submit" value="Login" />
+    </form>
+</div>
+{% endblock content %}

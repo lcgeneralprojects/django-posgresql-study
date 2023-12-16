@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block style %}
+.tabled form  { display: table;      }
+.tabled p     { display: table-row;  }
+.tabled label { display: table-cell; }
+.tabled input { display: table-cell; }
+{% endblock %}
+
+{% block content %}
+<div class="center">
+    <form method="POST">
+        {% csrf_token %}
+        <h2>Sign Up</h2>
+        {% comment %} {{ form.as_p }}
+        <input type="submit" value="Register" /> {% endcomment %}
+        {% for field in form %}
+        <p>
+            {% if field.errors %}
+            <ul class="errorlist">
+                {% for error in field.errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+            {{ field.label_tag }} {{ field }}
+        </p>
+        {% endfor %}
+        <input type="submit" value="Register" />
+        <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
+    </form>
+</div>
+{% endblock content %}

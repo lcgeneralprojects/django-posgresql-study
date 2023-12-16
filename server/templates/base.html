@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My site</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+</head>
+<style>
+    {% comment %} #main_container {
+        width: 60%;
+        margin: auto;
+        text-align: center;
+    } {% endcomment %}
+    body {
+        background-color: #181818
+    }
+    {% block style %}
+    {% endblock style %}
+</style>
+<body>
+    <header>
+        {% if request.user.is_authenticated %}
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'post_create' %}"> Create Post</a>
+            <span>Hi {{ request.user.username | title }}</span>
+            <a href="{% url 'logout' %}">Logout</a>
+        {% else %}
+            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'register' %}"> Register</a>
+        {% endif %}
+    </header>
+    <main>
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        
+        {% block content%}
+        {% endblock content %}
+    </main>
+</body>
+</html>
