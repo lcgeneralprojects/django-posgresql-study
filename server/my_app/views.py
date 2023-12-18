@@ -102,14 +102,28 @@ def create_post(request):
     elif request.method == 'POST':
         form = PostForm(request.POST)
         if form.is_valid():
-            user = form.save(commit=False)
-            user.author = request.user
+            post = form.save(commit=False)
+            post.author = request.user
             form.save()
             messages.success(request, 'The post has been created successfully.')
             return redirect('home')
         else:
             messages.error(request, 'Please correct the following errors:')
             return render(request, 'post_form.html', {'form': form})
+        
+
+@login_required
+def create_post_norefresh(request):
+    if request.method == 'POST':
+        title = request.POST['title']
+        content = request.POST['content']
+        author = request.user
+        
+        new_post = Post(title=title, content=content, author=author)
+        new_post.save()
+        success = 'New comment created successfully'
+        messages.success(request, success)
+        return HttpResponse(success)
         
         
 @login_required
@@ -155,8 +169,8 @@ def home(request):
     elif request.method == 'POST':
         form = PostForm(request.POST)
         if form.is_valid():
-            user = form.save(commit=False)
-            user.author = request.user
+            post = form.save(commit=False)
+            post.author = request.user
             form.save()
             messages.success(request, 'The post has been created successfully.')
             return render(request, 'home.html', context)
