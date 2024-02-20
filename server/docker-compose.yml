@@ -5,5 +5,29 @@ services:
     image: django_postgresql_study_image
     command: python manage.py runserver 0.0.0.0:8000
     build: .
+    volumes:
+      - .:/app
     ports:
       - "8000:8000"
+    expose:
+      - "8000"
+    env_file:
+      - ./django_postgresql_study/dev.env
+    depends_on:
+      - db
+  
+  db:
+    image: postgres:16.1
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    # env_file:
+    #   - ./django_postgresql_study/dev.env
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres_pw
+      - POSTGRES_DB=postgres
+
+volumes:
+  postgres_data:

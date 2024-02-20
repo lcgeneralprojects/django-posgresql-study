@@ -1,23 +1,26 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
+from django.core import serializers
 from .models import Post
 from .forms import LoginForm, RegisterForm, PostForm
 import psycopg2
 import environ
+import logging
+import re
 
 # Environ stuff
 env = environ.Env()
 environ.Env.read_env()
 
-# Create your views here.
-def say_hello(request):
-    # return HttpResponse('Hello, World!')
-    x = 1
-    y = 2
-    return render(request, 'hello.html', {'name': 'Test'})
+# # Create your views here.
+# def say_hello(request):
+#     # return HttpResponse('Hello, World!')
+#     x = 1
+#     y = 2
+#     return render(request, 'hello.html', {'name': 'Test'})
 
 # def dummy_insert(request):
 #     # return HttpResponse(request.GET.get('input'))
@@ -121,9 +124,24 @@ def create_post_norefresh(request):
         
         new_post = Post(title=title, content=content, author=author)
         new_post.save()
-        success = 'New comment created successfully'
-        messages.success(request, success)
-        return HttpResponse(success)
+        
+        # Currently suppressing the messages in the no-refresh view,
+        # as that leads to the accumulation of messages that are only shown upon refresh.
+        # TODO: restore the functionality after introducing a header to the HTML pages.
+        # success = 'New comment created successfully'
+        # messages.success(request, success)
+        
+        # Building a response
+        # TODO: switch the serializer to that of the Django REST framework
+        post_array = serializers.serialize('json', [new_post])
+        response = post_array[1:-1]
+        
+        response = re.sub(r'"author": \d+', f'"author": "{request.user.username}"', response)
+        
+        logging.warning(response)
+        logging.warning(request.user.username)
+        
+        return HttpResponse(response, content_type='application/json')
         
         
 @login_required
@@ -155,7 +173,7 @@ def delete_post(request, id):
     
     elif request.method == 'POST':
         post.delete()
-        messages.success(request, 'The post has been deleted successfully.')
+        messages.success(request, 'The comment has been deleted successfully.')
         return redirect('home')
         
 

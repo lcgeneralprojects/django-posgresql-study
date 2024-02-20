@@ -3,7 +3,7 @@ from . import views
 
 # URLConf
 urlpatterns = [
-    path(r'hello/', views.say_hello),
+    # path(r'hello/', views.say_hello),
     # path(r'insert/', views.dummy_insert),
     path(r'register/', views.sign_up, name='register'),
     path(r'login/', views.sign_in, name='login'),

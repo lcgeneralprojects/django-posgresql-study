@@ -15,8 +15,28 @@
                     content: $('#id_content').val(),
                     csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
                 },
+                dataType: 'json',
                 success: function (data) {
-                    $('#postsDiv').load('#postsDiv > *');
+
+                    var date = $.datepicker.formatDate('d M, Y', new Date(data['fields'].published_at),
+                    { 
+                        monthNamesShort: ['Jan','Feb','Mar','Apr','Maj','Jun','Jul','Aug','Sep','Okt','Nov','Dec'] 
+                    });
+
+                    var author = data['fields'].author.charAt(0).toUpperCase()+data['fields'].author.slice(1)
+                    var post_string = '<h2>'+data['fields'].title+'</h2>'+
+                    '<small>'+'Published on '+date+' by '+author+'</small>'+
+                    '<p>'+data['fields'].content+'</p>'+
+                    '<p><a href="/home/edit/'+data['pk']+'/">Edit</a></p>'+
+                    '<p><a href="/home/delete/'+data['pk']+'/">Delete</a></p>';
+
+                    console.log('data: '+JSON.stringify(data));
+                    console.log('post_string: '+post_string);
+                    $(".postsDiv").prepend(post_string);
+                },
+                error: function (error) {
+                    console.log('We have encountered an error');
+                    console.log(error);
                 }
             })
         })
@@ -37,7 +57,7 @@
     <div class='postsDiv'>
         {% for post in posts %}
             <h2>{{ post.title }}</h2>
-            <small>Published on {{ post.published_at | date:"M d, Y" }} by {{ post.author | title}}</small>
+            <small>Published on {{ post.published_at | date:"d M, Y" }} by {{ post.author | capfirst}}</small>
             <p>{{ post.content }}</p>
 
             {% if request.user.is_authenticated and request.user == post.author %}
