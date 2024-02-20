@@ -1,3 +1,4 @@
+# django-postgresql study
 [![en](https://img.shields.io/badge/lang-en-red)](https://github.com/lcgeneralprojects/django-posgresql-study/edit/development/README.md)
 [![ru](https://img.shields.io/badge/lang-ru-green)](https://github.com/lcgeneralprojects/django-posgresql-study/edit/development/README.ru.md)
 
