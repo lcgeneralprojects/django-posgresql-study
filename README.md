@@ -1,4 +1,6 @@
 # django-postgresql study
+[![en](https://img.shields.io/badge/lang-en-red)](https://github.com/lcgeneralprojects/django-posgresql-study/edit/development/README.md)
+
 A simple blog project, meant to be proof of basic competence in working with the technologies of Django and PostgreSQL.
 
 There are two intended ways of starting the server.
