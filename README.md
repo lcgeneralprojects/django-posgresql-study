@@ -1,6 +1,6 @@
 # django-postgresql study
-[![en](https://img.shields.io/badge/lang-en-red)](https://github.com/lcgeneralprojects/django-posgresql-study/blob/development/README.md)
-[![ru](https://img.shields.io/badge/lang-ru-green)](https://github.com/lcgeneralprojects/django-posgresql-study/blob/development/README.ru.md)
+[![en](https://img.shields.io/badge/lang-en-red)](https://github.com/lcgeneralprojects/django-posgresql-study/blob/main/README.md)
+[![ru](https://img.shields.io/badge/lang-ru-green)](https://github.com/lcgeneralprojects/django-posgresql-study/blob/main/README.ru.md)
 
 A simple blog project, meant to be proof of basic competence in working with the technologies of Django and PostgreSQL.
 
